@@ -1,0 +1,31 @@
+@font-face {
+    font-family: 'UncutSans-Regular';
+    src: url('../fonts/UncutSans-Regular.woff2') format('woff2'), url('../fonts/UncutSans-Regular.woff') format('woff');
+    font-weight: 400;
+    font-display: swap;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'UncutSans-Medium';
+    src: url('../fonts/UncutSans-Medium.woff2') format('woff2'), url('../fonts/UncutSans-Medium.woff') format('woff');
+    font-weight: 500;
+    font-display: swap;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'UncutSans-Bold';
+    src: url('../fonts/UncutSans-Bold.woff2') format('woff2'), url('../fonts/UncutSans-Bold.woff') format('woff');
+    font-weight: 700;
+    font-display: swap;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'UncutSans-Light';
+    src: url('../fonts/UncutSans-Light.woff2') format('woff2'), url('../fonts/UncutSans-Light.woff') format('woff');
+    font-weight: 300;
+    font-display: swap;
+    font-style: normal;
+}
