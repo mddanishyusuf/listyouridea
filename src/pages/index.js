@@ -130,7 +130,6 @@ export default function Home() {
     return (
         <>
             <Layout>
-                <PostInput refreshPosts={() => setRefreshPosts(refreshPosts + 1)} />
                 <div className="posts">
                     {posts.map((p, k) => (
                         <div

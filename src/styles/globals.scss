@@ -710,3 +710,369 @@ button {
         }
     }
 }
+
+// Add this to src/styles/globals.scss
+
+.submit-container {
+    position: relative;
+    z-index: 10;
+    margin: 0 auto;
+    margin-top: 2.5rem;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    overflow: hidden;
+    padding: 0 1.5rem;
+    text-align: center;
+    max-width: 32rem;
+
+    .submit-content {
+        z-index: 10;
+        display: flex;
+        width: 100%;
+        max-width: 32rem;
+        flex-direction: column;
+        align-items: center;
+        gap: 3rem;
+
+        .submit-title {
+            z-index: 10;
+            font-size: 1.5rem;
+            line-height: 2rem;
+            font-weight: 500;
+            letter-spacing: -0.04em;
+            margin: 0;
+        }
+
+        .progress-bar {
+            background-color: rgba(0, 0, 0, 0.1);
+            position: relative;
+            height: 0.5rem;
+            overflow: hidden;
+            border-radius: 9999px;
+            width: 100%;
+
+            .progress-indicator {
+                background-color: #000;
+                height: 100%;
+                width: 100%;
+                flex: 1;
+                transition: all 0.3s ease;
+            }
+        }
+
+        .form-space {
+            width: 100%;
+            text-align: left;
+
+            .form-space-inner {
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+
+                .form-item {
+                    display: grid;
+                    gap: 0.5rem;
+
+                    .form-label {
+                        display: flex;
+                        user-select: none;
+                        align-items: center;
+                        gap: 0.5rem;
+                        font-size: 0.875rem;
+                        font-weight: 500;
+                        line-height: 1;
+                        color: #000;
+                    }
+
+                    .form-control {
+                        display: flex;
+                        height: 2.25rem;
+                        width: 100%;
+                        min-width: 0;
+                        background-color: transparent;
+                        padding: 0.25rem 0.75rem;
+                        outline: none;
+                        transition: all 0.15s ease;
+                        font-size: 1rem;
+                        line-height: 1.25rem;
+                        border: 1px solid #d1d5db;
+                        background-color: #fff;
+                        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+
+                        &:focus {
+                            border-color: #000;
+                            ring: 3px;
+                            ring-color: rgba(0, 0, 0, 0.1);
+                        }
+
+                        &::placeholder {
+                            color: #9f9f9f;
+                        }
+
+                        &.form-textarea {
+                            min-height: 4rem;
+                            height: auto;
+                            resize: vertical;
+                            padding: 0.5rem 0.75rem;
+                            field-sizing: content;
+                        }
+                    }
+
+                    .form-description {
+                        color: #6b7280;
+                        font-size: 0.875rem;
+                        margin: 0;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+
+                        .word-count {
+                            font-weight: 500;
+                            color: #374151;
+                            margin-left: 1rem;
+                        }
+                    }
+
+                    .form-error {
+                        color: #ef4444;
+                        font-size: 0.875rem;
+                        margin: 0;
+                    }
+
+                    .upload-area {
+                        border: 2px dashed #d1d5db;
+                        border-radius: 0.5rem;
+                        padding: 2rem 1rem;
+                        text-align: center;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+                        background-color: #f9fafb;
+
+                        &:hover {
+                            border-color: #000;
+                            background-color: #f3f4f6;
+                        }
+
+                        .upload-content {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            gap: 0.5rem;
+
+                            p {
+                                margin: 0;
+                                font-size: 0.875rem;
+                                color: #374151;
+                            }
+
+                            .upload-icon {
+                                width: 1.5rem;
+                                height: 1.5rem;
+                                color: #6b7280;
+                            }
+                        }
+                    }
+
+                    .image-preview-container {
+                        position: relative;
+                        display: inline-block;
+
+                        .uploaded-image {
+                            width: 8rem;
+                            height: 8rem;
+                            object-fit: cover;
+                            border-radius: 0.5rem;
+                            border: 1px solid #d1d5db;
+
+                            &.small {
+                                width: 5rem;
+                                height: 5rem;
+                            }
+                        }
+
+                        .remove-image-btn {
+                            position: absolute;
+                            top: -0.5rem;
+                            right: -0.5rem;
+                            width: 1.5rem;
+                            height: 1.5rem;
+                            border-radius: 50%;
+                            background-color: #ef4444;
+                            color: white;
+                            border: none;
+                            cursor: pointer;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 1rem;
+                            font-weight: bold;
+
+                            &:hover {
+                                background-color: #dc2626;
+                            }
+                        }
+                    }
+
+                    .images-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+                        gap: 1rem;
+                        margin: 1rem 0;
+                    }
+                }
+
+                .review-section {
+                    width: 100%;
+
+                    .review-title {
+                        font-size: 1.25rem;
+                        font-weight: 600;
+                        margin: 0 0 1.5rem 0;
+                        color: #111827;
+                    }
+
+                    .review-item {
+                        margin-bottom: 1.5rem;
+                        padding-bottom: 1rem;
+                        border-bottom: 1px solid #f3f4f6;
+
+                        &:last-child {
+                            border-bottom: none;
+                            margin-bottom: 0;
+                            padding-bottom: 0;
+                        }
+
+                        strong {
+                            display: block;
+                            font-weight: 500;
+                            color: #374151;
+                            margin-bottom: 0.5rem;
+                        }
+
+                        p {
+                            margin: 0;
+                            color: #111827;
+                            line-height: 1.5;
+                        }
+
+                        .review-image {
+                            width: 4rem;
+                            height: 4rem;
+                            object-fit: cover;
+                            border-radius: 0.5rem;
+                            border: 1px solid #d1d5db;
+                            margin-top: 0.5rem;
+
+                            &.small {
+                                width: 3rem;
+                                height: 3rem;
+                            }
+                        }
+
+                        .review-images-grid {
+                            display: flex;
+                            gap: 0.5rem;
+                            margin-top: 0.5rem;
+                            flex-wrap: wrap;
+                        }
+                    }
+                }
+            }
+        }
+
+        .form-footer {
+            width: 100%;
+
+            .form-buttons {
+                display: flex;
+                justify-content: space-between;
+                gap: 1rem;
+                padding-top: 1.5rem;
+                padding-bottom: 5rem;
+
+                .btn-icon-left {
+                    margin-right: 0.5rem;
+                    height: 1rem;
+                    width: 1rem;
+                }
+
+                .btn-icon-right {
+                    margin-left: 0.5rem;
+                    height: 1rem;
+                    width: 1rem;
+                }
+
+                @media (max-width: 640px) {
+                    flex-direction: column-reverse;
+                    gap: 0.5rem;
+
+                    .button {
+                        justify-content: center;
+                    }
+                }
+
+                @media (min-width: 640px) {
+                    flex-direction: row;
+                    justify-content: space-between;
+                }
+            }
+        }
+
+        .auth-required {
+            text-align: center;
+            padding: 3rem 1rem;
+
+            h2 {
+                font-size: 1.25rem;
+                font-weight: 600;
+                color: #111827;
+                margin: 0;
+            }
+        }
+    }
+
+    // Mobile responsiveness
+    @media (max-width: 768px) {
+        margin-top: 1.5rem;
+        padding: 0 1rem;
+        gap: 1.5rem;
+
+        .submit-content {
+            gap: 2rem;
+
+            .submit-title {
+                font-size: 1.25rem;
+            }
+
+            .form-space {
+                .form-space-inner {
+                    gap: 1.25rem;
+
+                    .form-item {
+                        .upload-area {
+                            padding: 1.5rem 1rem;
+                        }
+
+                        .uploaded-image {
+                            width: 6rem;
+                            height: 6rem;
+
+                            &.small {
+                                width: 4rem;
+                                height: 4rem;
+                            }
+                        }
+
+                        .images-grid {
+                            grid-template-columns: repeat(auto-fit, minmax(4rem, 1fr));
+                            gap: 0.75rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

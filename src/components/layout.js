@@ -3,6 +3,7 @@ import Seo from './seo';
 import { BookmarkLinear, BoxMinimalisticOutline, DoubleArrowRight, FireMinimalisticOutline, HomeSmileAngleOutline, NotificationUnreadLinear, UserLinear, UsersGroupRoundedOutline } from '@/lib/icons';
 import firebase from '@/lib/firebase';
 import { useAuth } from '@/contexts/authContext';
+import Link from 'next/link';
 
 const Layout = ({ children }) => {
     const { userObj } = useAuth();
@@ -78,13 +79,16 @@ const Layout = ({ children }) => {
                             <Text my={0}>Profile</Text>
                         </div>
                     </div>
-                    <button
-                        className="button button--primary"
-                        style={{ width: '100%' }}
-                    >
-                        <Text small>Post your idea</Text>
-                        <DoubleArrowRight />
-                    </button>
+                    <Link href="/submit">
+                        <button
+                            className="button button--primary"
+                            style={{ width: '100%' }}
+                        >
+                            <Text small>Post your idea</Text>
+                            <DoubleArrowRight />
+                        </button>
+                    </Link>
+
                     <br />
                     <br />
                     {userObj ? (
