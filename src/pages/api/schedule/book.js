@@ -78,20 +78,6 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'Slot already booked' });
         }
 
-        // TEMPORARILY reserve the slot (but don't mark as paid or change post status yet)
-        slot.post = post._id;
-        slot.user = user._id;
-        slot.bookedAt = new Date();
-        slot.paid = false;
-        slot.paymentPending = true; // Add this flag to indicate payment is pending
-
-        await schedule.save();
-
-        // DON'T change post status yet - keep it as 'draft' until payment is confirmed
-        // post.status = 'scheduled';  // Remove this line
-        // post.scheduledWeek = new Date(weekStartDate);  // Remove this line
-        // await post.save();  // Remove this line
-
         // Create Stripe checkout session
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -111,7 +97,7 @@ export default async function handler(req, res) {
             ],
             mode: 'payment',
             success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/schedule/success?session_id={CHECKOUT_SESSION_ID}&schedule_id=${schedule._id}&slot_number=${slotNumber}&post_id=${post._id}`,
-            cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/schedule?cancelled=true&schedule_id=${schedule._id}&slot_number=${slotNumber}&post_id=${post._id}`,
+            cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/schedule?cancelled=true`,
             customer_email: user.email,
             metadata: {
                 scheduleId: schedule._id.toString(),

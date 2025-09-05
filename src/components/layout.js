@@ -91,7 +91,7 @@ const Layout = ({ children }) => {
                             <Text my={0}>Bookmarks</Text>
                         </Link>
                         <Link
-                            href="/"
+                            href="/schedule"
                             className="nav"
                         >
                             <UserLinear />

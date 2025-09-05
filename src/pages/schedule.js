@@ -21,44 +21,6 @@ export default function Schedule() {
         }
     }, [userObj]);
 
-    // Add this useEffect to handle cancelled payments
-    useEffect(() => {
-        if (userObj && router.query.cancelled === 'true') {
-            handleCancelledPayment();
-        }
-    }, [userObj, router.query]);
-
-    const handleCancelledPayment = async () => {
-        const { schedule_id, slot_number, post_id } = router.query;
-
-        if (schedule_id && slot_number && post_id) {
-            try {
-                await fetch('/api/schedule/cancel-payment', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        uid: userObj.uid,
-                    },
-                    body: JSON.stringify({
-                        scheduleId: schedule_id,
-                        slotNumber: parseInt(slot_number),
-                        postId: post_id,
-                    }),
-                });
-
-                // Refresh the data to show updated availability
-                await fetchData();
-
-                alert('Payment was cancelled. Your slot reservation has been released.');
-            } catch (error) {
-                console.error('Error handling cancelled payment:', error);
-            }
-        }
-
-        // Clean up the URL
-        router.replace('/schedule', undefined, { shallow: true });
-    };
-
     const fetchData = async () => {
         try {
             setLoading(true);

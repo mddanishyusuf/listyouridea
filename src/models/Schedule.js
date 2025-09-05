@@ -37,10 +37,6 @@ const scheduleSchema = new mongoose.Schema(
                     type: Boolean,
                     default: false,
                 },
-                paymentPending: {
-                    type: Boolean,
-                    default: false,
-                },
                 paymentAmount: {
                     type: Number,
                     default: 29,

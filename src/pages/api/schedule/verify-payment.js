@@ -42,12 +42,15 @@ export default async function handler(req, res) {
             return res.status(404).json({ error: 'Slot not found' });
         }
 
+        // Book the slot
+        slot.post = postId;
+        slot.user = user._id;
+        slot.bookedAt = new Date();
         slot.paid = true;
-        slot.paymentPending = false;
         slot.stripePaymentId = sessionId;
         await schedule.save();
 
-        // NOW update post status to published (only after successful payment)
+        // Update post status to published
         const post = await Post.findById(postId);
         if (!post) {
             return res.status(404).json({ error: 'Post not found' });

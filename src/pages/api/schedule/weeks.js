@@ -1,6 +1,7 @@
 import dbConnect from '@/lib/mongodb';
 import Schedule from '@/models/Schedule';
 import User from '@/models/User';
+import Post from '@/models/Post';
 import moment from 'moment';
 
 export default async function handler(req, res) {
@@ -61,7 +62,7 @@ export default async function handler(req, res) {
                 console.log(`Created schedule for week: ${weekStart.format('YYYY-MM-DD')}`);
             }
 
-            const availableSlots = schedule.slots.filter((slot) => !slot.post || (!slot.paid && !slot.paymentPending)).length;
+            const availableSlots = schedule.slots.filter((slot) => !slot.post).length;
 
             weeks.push({
                 weekStart: weekStart.format('YYYY-MM-DD'),
