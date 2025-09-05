@@ -2,7 +2,7 @@
 import { useState, useRef } from 'react';
 import { useAuth } from '@/contexts/authContext';
 import { useRouter } from 'next/router';
-import { AltArrowRightLineDuotone } from '@/lib/icons';
+import { AltArrowRightLineDuotone, CameraOutline, LinkCircle02 } from '@/lib/icons';
 
 const SubmitForm = () => {
     const { userObj } = useAuth();
@@ -11,6 +11,7 @@ const SubmitForm = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [uploading, setUploading] = useState(false);
     const [uploadingFiles, setUploadingFiles] = useState([]);
+
     // Form data
     const [formData, setFormData] = useState({
         productTitle: '',
@@ -33,7 +34,6 @@ const SubmitForm = () => {
             [field]: value,
         }));
 
-        // Clear error when user starts typing
         if (errors[field]) {
             setErrors((prev) => ({
                 ...prev,
@@ -115,9 +115,6 @@ const SubmitForm = () => {
         }
     };
 
-    // Add these state variables at the top of your component
-
-    // Update the handleFileUpload function with loading states
     const handleFileUpload = async (file, type = 'product') => {
         if (!file) return;
 
@@ -130,8 +127,6 @@ const SubmitForm = () => {
         formDataUpload.append('file', file);
 
         try {
-            console.log(`Uploading ${type} image:`, file.name);
-
             const res = await fetch('/api/upload', {
                 method: 'POST',
                 headers: {
@@ -145,7 +140,6 @@ const SubmitForm = () => {
             }
 
             const data = await res.json();
-            console.log('Upload response:', data);
 
             if (type === 'product') {
                 handleInputChange('productImage', data.url);
@@ -165,11 +159,11 @@ const SubmitForm = () => {
             }
         }
     };
+
     const handleFileSelect = (type = 'product') => {
         if (type === 'product' && productImageInputRef.current) {
             productImageInputRef.current.click();
         } else if (type === 'featured' && featuredImageInputRef.current) {
-            // Check if we have space for more images
             if (formData.featuredImages.length >= 4) {
                 alert('Maximum 4 images allowed');
                 return;
@@ -188,19 +182,13 @@ const SubmitForm = () => {
             const remainingSlots = 4 - formData.featuredImages.length;
             const filesToUpload = filesArray.slice(0, remainingSlots);
 
-            console.log('Files selected:', filesToUpload.length); // Debug log
-
-            // Upload each file
-            filesToUpload.forEach((file, index) => {
-                console.log(`Uploading file ${index + 1}:`, file.name); // Debug log
+            filesToUpload.forEach((file) => {
                 handleFileUpload(file, type);
             });
         } else {
-            // Single file for product image
             handleFileUpload(files[0], type);
         }
 
-        // Clear the input to allow selecting the same files again
         event.target.value = '';
     };
 
@@ -228,6 +216,7 @@ const SubmitForm = () => {
                     productDescription: formData.productDescription,
                     productImage: formData.productImage,
                     featuredImages: formData.featuredImages,
+                    productUrl: formData.productUrl,
                 }),
             });
 
@@ -242,253 +231,205 @@ const SubmitForm = () => {
     };
 
     const renderStep1 = () => (
-        <form className="form-space">
-            <div className="form-space-inner">
-                <div className="form-item">
-                    <label
-                        className="form-label"
-                        htmlFor="productTitle"
-                    >
-                        Product Name
-                    </label>
-                    <input
-                        className="form-control"
-                        placeholder="My Awesome Product"
-                        id="productTitle"
-                        value={formData.productTitle}
-                        onChange={(e) => handleInputChange('productTitle', e.target.value)}
-                    />
-                    <p className="form-description">The name of your product that will be displayed to users.</p>
-                    {errors.productTitle && <p className="form-error">{errors.productTitle}</p>}
-                </div>
-
-                <div className="form-item">
-                    <label
-                        className="form-label"
-                        htmlFor="productDescription"
-                    >
-                        Product Description
-                    </label>
-                    <textarea
-                        className="form-control form-textarea"
-                        placeholder="Describe your product and what makes it unique..."
-                        id="productDescription"
-                        value={formData.productDescription}
-                        onChange={(e) => handleInputChange('productDescription', e.target.value)}
-                    />
-                    <p className="form-description">
-                        Provide a clear, concise description of what your product does and its main features. (Max 100 words)
-                        <span className="word-count">
-                            {
-                                formData.productDescription
-                                    .trim()
-                                    .split(' ')
-                                    .filter((word) => word.length > 0).length
-                            }
-                            /100 words
-                        </span>
-                    </p>
-                    {errors.productDescription && <p className="form-error">{errors.productDescription}</p>}
-                </div>
-
-                <div className="form-item">
-                    <label
-                        className="form-label"
-                        htmlFor="productUrl"
-                    >
-                        Product URL
-                    </label>
-                    <input
-                        className="form-control"
-                        placeholder="https://yourproduct.com"
-                        id="productUrl"
-                        value={formData.productUrl}
-                        onChange={(e) => handleInputChange('productUrl', e.target.value)}
-                    />
-                    <p className="form-description">The website or landing page URL for your product.</p>
-                    {errors.productUrl && <p className="form-error">{errors.productUrl}</p>}
-                </div>
+        <div className="step-content">
+            <div className="form-section">
+                <label>Product Name</label>
+                <input
+                    className={`form-input ${errors.productTitle ? 'error' : ''}`}
+                    placeholder="Enter your product name"
+                    value={formData.productTitle}
+                    onChange={(e) => handleInputChange('productTitle', e.target.value)}
+                />
+                {errors.productTitle && <span className="error-text">{errors.productTitle}</span>}
             </div>
-        </form>
+
+            <div className="form-section">
+                <label>Description</label>
+                <textarea
+                    className={`form-textarea ${errors.productDescription ? 'error' : ''}`}
+                    placeholder="Describe your product..."
+                    value={formData.productDescription}
+                    onChange={(e) => handleInputChange('productDescription', e.target.value)}
+                    rows={4}
+                />
+                <div className="form-helper">
+                    <span className="word-count">
+                        {
+                            formData.productDescription
+                                .trim()
+                                .split(' ')
+                                .filter((word) => word.length > 0).length
+                        }
+                        /100 words
+                    </span>
+                </div>
+                {errors.productDescription && <span className="error-text">{errors.productDescription}</span>}
+            </div>
+
+            <div className="form-section">
+                <label>Website URL</label>
+                <input
+                    className={`form-input ${errors.productUrl ? 'error' : ''}`}
+                    placeholder="https://yourproduct.com"
+                    value={formData.productUrl}
+                    onChange={(e) => handleInputChange('productUrl', e.target.value)}
+                />
+                {errors.productUrl && <span className="error-text">{errors.productUrl}</span>}
+            </div>
+        </div>
     );
 
     const renderStep2 = () => (
-        <form className="form-space">
-            <div className="form-space-inner">
-                <div className="form-item">
-                    <label className="form-label">Product Logo</label>
+        <div className="step-content">
+            <div className="form-section">
+                <label>Product Logo</label>
+                {formData.productImage ? (
+                    <div className="uploaded-image">
+                        <img
+                            src={formData.productImage}
+                            alt="Product logo"
+                        />
+                        <button
+                            type="button"
+                            className="remove-btn"
+                            onClick={() => handleInputChange('productImage', '')}
+                        >
+                            ×
+                        </button>
+                    </div>
+                ) : (
+                    <div
+                        className={`upload-box ${uploading ? 'uploading' : ''}`}
+                        onClick={() => !uploading && handleFileSelect('product')}
+                    >
+                        {uploading ? (
+                            <div className="upload-status">
+                                <div className="spinner"></div>
+                                <span>Uploading...</span>
+                            </div>
+                        ) : (
+                            <>
+                                <CameraOutline />
+                                <span>Upload Logo</span>
+                            </>
+                        )}
+                    </div>
+                )}
+                {errors.productImage && <span className="error-text">{errors.productImage}</span>}
+            </div>
 
-                    {formData.productImage ? (
-                        <div className="image-preview-container">
+            <div className="form-section">
+                <label>Featured Images ({formData.featuredImages.length}/4)</label>
+                <div className="images-grid">
+                    {formData.featuredImages.map((image, index) => (
+                        <div
+                            key={index}
+                            className="uploaded-image small"
+                        >
                             <img
-                                src={formData.productImage}
-                                alt="Product logo"
-                                className="uploaded-image"
+                                src={image}
+                                alt={`Featured ${index + 1}`}
                             />
                             <button
                                 type="button"
-                                className="remove-image-btn"
-                                onClick={() => handleInputChange('productImage', '')}
+                                className="remove-btn"
+                                onClick={() => removeFeaturedImage(index)}
                             >
                                 ×
                             </button>
                         </div>
-                    ) : (
-                        <div
-                            className="upload-area"
-                            onClick={() => handleFileSelect('product')}
-                        >
-                            <div className="upload-content">
-                                <svg
-                                    className="upload-icon"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M12 4v16m8-8H4"
-                                    />
-                                </svg>
-                                <p>Click to upload product logo</p>
-                            </div>
-                        </div>
-                    )}
+                    ))}
 
-                    <p className="form-description">Upload your product logo or main image (PNG, JPG, GIF).</p>
-                    {errors.productImage && <p className="form-error">{errors.productImage}</p>}
-                </div>
-
-                <div className="form-item">
-                    <label className="form-label">Featured Images ({formData.featuredImages.length}/4)</label>
-
-                    {/* Display uploaded featured images */}
-                    {formData.featuredImages.length > 0 && (
-                        <div className="images-grid">
-                            {formData.featuredImages.map((image, index) => (
-                                <div
-                                    key={index}
-                                    className="image-preview-container"
-                                >
-                                    <img
-                                        src={image}
-                                        alt={`Featured ${index + 1}`}
-                                        className="uploaded-image small"
-                                    />
-                                    <button
-                                        type="button"
-                                        className="remove-image-btn"
-                                        onClick={() => removeFeaturedImage(index)}
-                                    >
-                                        ×
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-
-                    {/* Upload area - only show if less than 4 images */}
                     {formData.featuredImages.length < 4 && (
                         <div
-                            className={`upload-area ${uploading ? 'uploading' : ''}`}
+                            className={`upload-box small ${uploading ? 'uploading' : ''}`}
                             onClick={() => !uploading && handleFileSelect('featured')}
                         >
-                            <div className="upload-content">
-                                {uploading ? (
-                                    <>
-                                        <div className="upload-spinner"></div>
-                                        <p>Uploading images...</p>
-                                        {uploadingFiles.length > 0 && <p style={{ fontSize: '12px', color: '#666' }}>Uploading: {uploadingFiles.join(', ')}</p>}
-                                    </>
-                                ) : (
-                                    <>
-                                        <svg
-                                            className="upload-icon"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M12 4v16m8-8H4"
-                                            />
-                                        </svg>
-                                        <p>{formData.featuredImages.length === 0 ? 'Click to add featured images' : `Add more images (${4 - formData.featuredImages.length} remaining)`}</p>
-                                    </>
-                                )}
-                            </div>
+                            {uploading ? (
+                                <div className="spinner small"></div>
+                            ) : (
+                                <>
+                                    <CameraOutline />
+                                    <span>Add Image</span>
+                                </>
+                            )}
                         </div>
                     )}
-
-                    <p className="form-description">Add up to 4 featured images showcasing your product.</p>
-                    {errors.featuredImages && <p className="form-error">{errors.featuredImages}</p>}
                 </div>
-
-                {/* Hidden file inputs */}
-                <input
-                    type="file"
-                    ref={productImageInputRef}
-                    style={{ display: 'none' }}
-                    onChange={(e) => handleFileChange(e, 'product')}
-                    accept="image/*"
-                />
-                <input
-                    type="file"
-                    ref={featuredImageInputRef}
-                    style={{ display: 'none' }}
-                    onChange={(e) => handleFileChange(e, 'featured')}
-                    accept="image/*"
-                    multiple
-                />
+                {errors.featuredImages && <span className="error-text">{errors.featuredImages}</span>}
             </div>
-        </form>
+
+            <input
+                type="file"
+                ref={productImageInputRef}
+                style={{ display: 'none' }}
+                onChange={(e) => handleFileChange(e, 'product')}
+                accept="image/*"
+            />
+            <input
+                type="file"
+                ref={featuredImageInputRef}
+                style={{ display: 'none' }}
+                onChange={(e) => handleFileChange(e, 'featured')}
+                accept="image/*"
+                multiple
+            />
+        </div>
     );
 
     const renderStep3 = () => (
-        <div className="form-space">
-            <div className="form-space-inner">
-                <div className="review-section">
-                    <h3 className="review-title">Review Your Submission</h3>
-
-                    <div className="review-item">
-                        <strong>Product Name:</strong>
-                        <p>{formData.productTitle}</p>
-                    </div>
-
-                    <div className="review-item">
-                        <strong>Description:</strong>
-                        <p>{formData.productDescription}</p>
-                    </div>
-
-                    <div className="review-item">
-                        <strong>Product URL:</strong>
-                        <p>{formData.productUrl}</p>
-                    </div>
-
-                    <div className="review-item">
-                        <strong>Product Logo:</strong>
+        <div className="step-content">
+            <div className="preview-post">
+                <div className="post-header">
+                    <div className="author-image">
                         <img
                             src={formData.productImage}
-                            alt="Product logo"
-                            className="review-image"
+                            alt="Product Logo"
+                            style={{
+                                borderRadius: '8px',
+                                width: '40px',
+                                height: '40px',
+                                objectFit: 'cover',
+                            }}
                         />
                     </div>
+                    <div className="content">
+                        <div className="content-head">
+                            <div>
+                                <h3 style={{ fontSize: 15, margin: 0 }}>{formData.productTitle}</h3>
+                            </div>
+                            <div className="content-head-right">
+                                <a
+                                    href={formData.productUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="product-link-btn"
+                                >
+                                    Visit
+                                </a>
+                            </div>
+                        </div>
 
-                    <div className="review-item">
-                        <strong>Featured Images ({formData.featuredImages.length}):</strong>
-                        <div className="review-images-grid">
-                            {formData.featuredImages.map((image, index) => (
-                                <img
-                                    key={index}
-                                    src={image}
-                                    alt={`Featured ${index + 1}`}
-                                    className="review-image small"
-                                />
-                            ))}
+                        <div className="product-post">
+                            <div style={{ marginBottom: '12px', lineHeight: '1.5', fontSize: 14 }}>{formData.productDescription}</div>
+
+                            {formData.featuredImages && formData.featuredImages.length > 0 && (
+                                <div
+                                    className="featured-images"
+                                    style={{ marginTop: '12px' }}
+                                >
+                                    <div className="featured-images-row">
+                                        {formData.featuredImages.map((image, index) => (
+                                            <img
+                                                key={index}
+                                                src={image}
+                                                alt={`Featured ${index + 1}`}
+                                                className="featured-image-small"
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -498,87 +439,69 @@ const SubmitForm = () => {
 
     if (!userObj) {
         return (
-            <div className="submit-container">
-                <div className="submit-content">
-                    <div className="auth-required">
-                        <h2>Please login to submit your product idea</h2>
-                    </div>
+            <div className="submit-form-container">
+                <div className="auth-message">
+                    <h2>Please login to submit your product</h2>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="submit-container">
-            <div className="submit-content">
-                <h1 className="submit-title">Share Your Product Idea</h1>
-
-                {/* Progress bar */}
-                <div
-                    className="progress-bar"
-                    role="progressbar"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                    aria-valuenow={Math.round((currentStep / 3) * 100)}
-                >
-                    <div
-                        className="progress-indicator"
-                        style={{ transform: `translateX(-${100 - (currentStep / 3) * 100}%)` }}
-                    />
+        <div className="submit-form-container">
+            <div className="form-header">
+                <h1>Submit Your Product</h1>
+                <div className="step-indicators">
+                    <div className={`step ${currentStep >= 1 ? 'active' : ''}`}>
+                        <span>1</span>
+                        <label>Details</label>
+                    </div>
+                    <div className={`step ${currentStep >= 2 ? 'active' : ''}`}>
+                        <span>2</span>
+                        <label>Images</label>
+                    </div>
+                    <div className={`step ${currentStep >= 3 ? 'active' : ''}`}>
+                        <span>3</span>
+                        <label>Preview</label>
+                    </div>
                 </div>
+            </div>
 
-                {/* Form content */}
+            <div className="form-body">
                 {currentStep === 1 && renderStep1()}
                 {currentStep === 2 && renderStep2()}
                 {currentStep === 3 && renderStep3()}
+            </div>
 
-                {/* Navigation */}
-                <div className="form-footer">
-                    <div className="form-buttons">
-                        <button
-                            type="button"
-                            className="button button--secondary"
-                            onClick={handlePrevious}
-                            disabled={currentStep === 1}
-                            style={{ visibility: currentStep === 1 ? 'hidden' : 'visible' }}
-                        >
-                            <svg
-                                className="btn-icon-left"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M15 19l-7-7 7-7"
-                                />
-                            </svg>
-                            Previous
-                        </button>
+            <div className="form-footer">
+                <button
+                    type="button"
+                    className="button button--secondary button--small"
+                    onClick={handlePrevious}
+                    disabled={currentStep === 1}
+                    style={{ visibility: currentStep === 1 ? 'hidden' : 'visible' }}
+                >
+                    Previous
+                </button>
 
-                        {currentStep < 3 ? (
-                            <button
-                                type="button"
-                                className="button button--primary"
-                                onClick={handleNext}
-                            >
-                                Next
-                                <AltArrowRightLineDuotone />
-                            </button>
-                        ) : (
-                            <button
-                                type="button"
-                                className="button button--primary"
-                                onClick={handleSubmit}
-                                disabled={isSubmitting}
-                            >
-                                {isSubmitting ? 'Submitting...' : 'Submit Product'}
-                            </button>
-                        )}
-                    </div>
-                </div>
+                {currentStep < 3 ? (
+                    <button
+                        type="button"
+                        className="button button--primary button--small"
+                        onClick={handleNext}
+                    >
+                        Next
+                    </button>
+                ) : (
+                    <button
+                        type="button"
+                        className="button button--primary button--small"
+                        onClick={handleSubmit}
+                        disabled={isSubmitting}
+                    >
+                        {isSubmitting ? 'Publishing...' : 'Publish Product'}
+                    </button>
+                )}
             </div>
         </div>
     );

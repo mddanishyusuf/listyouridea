@@ -28,7 +28,7 @@ export default async function handler(req, res) {
     if (req.method === 'POST') {
         try {
             const { uid } = req.headers;
-            const { productTitle, productDescription, productImage, featuredImages } = req.body;
+            const { productTitle, productDescription, productImage, featuredImages, productUrl } = req.body;
 
             const user = await User.findOne({ uid });
             if (!user) return res.status(401).json({ error: 'Unauthorized' });
@@ -67,6 +67,7 @@ export default async function handler(req, res) {
                 productDescription: productDescription.trim(),
                 productImage,
                 featuredImages,
+                productUrl,
                 completed: true,
             };
 
