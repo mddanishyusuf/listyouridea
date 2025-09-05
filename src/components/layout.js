@@ -51,6 +51,7 @@ const Layout = ({ children }) => {
                             width={30}
                             alt="UX UI feed"
                         />
+                        <h2>List your idea</h2>
                     </div>
 
                     <div className="sidebar-nav">

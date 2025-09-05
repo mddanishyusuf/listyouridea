@@ -325,6 +325,13 @@ div {
     .sidebar {
         .logo {
             padding: 20px 0px;
+
+            display: flex;
+            align-items: center;
+
+            h2 {
+                font-size: 17px;
+            }
         }
     }
 }
@@ -1591,7 +1598,7 @@ div {
 // Add this to src/styles/globals.scss (replace the previous submit form styles)
 
 .submit-form-container {
-    max-width: 500px;
+    max-width: 600px;
     margin: 0 auto;
     background: white;
     border: 1px solid #eff3f4;
