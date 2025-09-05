@@ -53,6 +53,10 @@ const postSchema = new mongoose.Schema(
             ref: 'User',
             default: [],
         },
+        productUrl: {
+            type: String,
+            required: true,
+        },
         retweets: {
             type: [mongoose.Schema.Types.ObjectId],
             ref: 'User',

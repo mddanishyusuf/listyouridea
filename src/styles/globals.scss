@@ -608,30 +608,8 @@ div {
     }
 }
 
-// Add to existing styles
-
-.featured-images {
-    img {
-        transition: transform 0.2s ease;
-
-        &:hover {
-            transform: scale(1.02);
-        }
-    }
-}
-
 .product-post {
     margin-top: 12px;
-    .featured-images {
-        border: 1px solid #e1e8ed;
-        border-radius: 12px;
-        overflow: hidden;
-
-        img {
-            border: none;
-            border-radius: 0;
-        }
-    }
 }
 
 .post-card {
@@ -1015,6 +993,597 @@ div {
                     }
                 }
             }
+        }
+    }
+}
+// Featured images in a single row
+.featured-images-row {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+
+    &::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 2px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 2px;
+
+        &:hover {
+            background: #a1a1a1;
+        }
+    }
+}
+
+.featured-image-small {
+    width: 120px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #e1e8ed;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+
+    &:hover {
+        transform: scale(1.02);
+    }
+}
+
+// Update content head to accommodate both buttons
+.content-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+
+    .content-head-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+}
+
+// Upvote button styles
+.upvote-btn {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid #e1e8ed;
+    color: #666;
+    padding: 6px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    backdrop-filter: blur(10px);
+
+    svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    span {
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    &:hover {
+        background: rgba(255, 240, 240, 0.9);
+        border-color: #ff6b6b;
+        color: #ff6b6b;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(255, 107, 107, 0.2);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+
+    // Liked state
+    &.liked {
+        background: rgba(255, 107, 107, 0.1);
+        border-color: #ff6b6b;
+        color: #ff6b6b;
+
+        svg {
+            fill: #ff6b6b;
+        }
+    }
+}
+
+// Product link button styles
+.product-link-btn {
+    background: linear-gradient(145deg, #1a1a1a 0%, #2c2c2c 25%, #1f1f1f 50%, #2a2a2a 75%, #0f0f0f 100%);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 300;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.2s ease;
+
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    &:hover {
+        background: linear-gradient(145deg, #2a2a2a 0%, #3c3c3c 25%, #2f2f2f 50%, #3a3a3a 75%, #1f1f1f 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        color: white;
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+}
+
+// Mobile responsiveness
+@media (max-width: 768px) {
+    .featured-image-small {
+        width: 100px;
+        height: 65px;
+    }
+
+    .content-head {
+        .content-head-right {
+            gap: 6px;
+        }
+    }
+
+    .product-link-btn {
+        padding: 5px 10px;
+        font-size: 11px;
+    }
+
+    .upvote-btn {
+        padding: 5px 8px;
+        font-size: 11px;
+
+        svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        span {
+            font-size: 11px;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .featured-image-small {
+        width: 80px;
+        height: 55px;
+    }
+
+    .content-head {
+        .content-head-right {
+            gap: 4px;
+        }
+    }
+
+    .product-link-btn {
+        padding: 4px 8px;
+        font-size: 10px;
+    }
+
+    .upvote-btn {
+        padding: 4px 6px;
+
+        span {
+            font-size: 10px;
+        }
+    }
+}
+
+// Update the featured image styles to include cursor pointer
+.featured-image-small {
+    width: 120px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #e1e8ed;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+    cursor: pointer; // Add cursor pointer
+
+    &:hover {
+        transform: scale(1.05); // Slightly more hover effect
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+}
+
+// Image Carousel Modal Styles
+.carousel-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.carousel-modal {
+    position: relative;
+    width: 90vw;
+    height: 90vh;
+    max-width: 1200px;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: scale(0.9) translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+.carousel-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: rgba(0, 0, 0, 0.9);
+        transform: scale(1.1);
+    }
+
+    svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+.carousel-counter {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 20px;
+    z-index: 10;
+
+    small {
+        color: white !important;
+        font-weight: 500;
+    }
+}
+
+.carousel-main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: #f8f9fa;
+}
+
+.carousel-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border: none;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: rgba(0, 0, 0, 0.9);
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    &.carousel-nav-left {
+        left: 16px;
+    }
+
+    &.carousel-nav-right {
+        right: 16px;
+    }
+
+    svg {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+.carousel-thumbnails {
+    display: flex;
+    gap: 8px;
+    padding: 16px 20px;
+    background: white;
+    overflow-x: auto;
+    justify-content: center;
+    border-top: 1px solid #e1e8ed;
+
+    &::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 3px;
+
+        &:hover {
+            background: #a1a1a1;
+        }
+    }
+}
+
+.carousel-thumbnail {
+    flex-shrink: 0;
+    width: 60px;
+    height: 40px;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: none;
+    padding: 0;
+
+    &.active {
+        border-color: #000;
+        box-shadow: 0 0 0 1px #000;
+    }
+
+    &:hover {
+        border-color: #666;
+        transform: scale(1.05);
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+// Mobile responsiveness for carousel
+@media (max-width: 768px) {
+    .carousel-modal {
+        width: 95vw;
+        height: 95vh;
+        border-radius: 12px;
+    }
+
+    .carousel-main {
+        padding: 16px;
+    }
+
+    .carousel-nav {
+        width: 40px;
+        height: 40px;
+
+        &.carousel-nav-left {
+            left: 12px;
+        }
+
+        &.carousel-nav-right {
+            right: 12px;
+        }
+
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    .carousel-close {
+        width: 36px;
+        height: 36px;
+        top: 12px;
+        right: 12px;
+
+        svg {
+            width: 18px;
+            height: 18px;
+        }
+    }
+
+    .carousel-counter {
+        top: 12px;
+        left: 12px;
+        padding: 6px 10px;
+    }
+
+    .carousel-thumbnails {
+        padding: 12px 16px;
+        gap: 6px;
+    }
+
+    .carousel-thumbnail {
+        width: 50px;
+        height: 35px;
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel-modal {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+    }
+
+    .carousel-thumbnails {
+        padding: 10px 12px;
+    }
+
+    .carousel-thumbnail {
+        width: 45px;
+        height: 30px;
+    }
+}
+
+.upload-area {
+    &.uploading {
+        pointer-events: none;
+        opacity: 0.7;
+        border-color: #007bff;
+        background-color: #f0f8ff;
+    }
+}
+
+.upload-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+// Add these CSS styles for the loading spinner and upload states
+.upload-area {
+    &.uploading {
+        pointer-events: none;
+        opacity: 0.7;
+        border-color: #007bff;
+        background-color: #f0f8ff;
+    }
+}
+
+.upload-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+// Make sure these styles exist for the image preview
+.images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.image-preview-container {
+    position: relative;
+    display: inline-block;
+
+    .uploaded-image {
+        width: 8rem;
+        height: 8rem;
+        object-fit: cover;
+        border-radius: 0.5rem;
+        border: 1px solid #d1d5db;
+
+        &.small {
+            width: 5rem;
+            height: 5rem;
+        }
+    }
+
+    .remove-image-btn {
+        position: absolute;
+        top: -0.5rem;
+        right: -0.5rem;
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+        background-color: #ef4444;
+        color: white;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        font-weight: bold;
+
+        &:hover {
+            background-color: #dc2626;
         }
     }
 }

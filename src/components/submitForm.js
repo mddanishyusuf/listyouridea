@@ -9,7 +9,8 @@ const SubmitForm = () => {
     const router = useRouter();
     const [currentStep, setCurrentStep] = useState(1);
     const [isSubmitting, setIsSubmitting] = useState(false);
-
+    const [uploading, setUploading] = useState(false);
+    const [uploadingFiles, setUploadingFiles] = useState([]);
     // Form data
     const [formData, setFormData] = useState({
         productTitle: '',
@@ -114,11 +115,23 @@ const SubmitForm = () => {
         }
     };
 
+    // Add these state variables at the top of your component
+
+    // Update the handleFileUpload function with loading states
     const handleFileUpload = async (file, type = 'product') => {
+        if (!file) return;
+
+        setUploading(true);
+        if (type === 'featured') {
+            setUploadingFiles((prev) => [...prev, file.name]);
+        }
+
         const formDataUpload = new FormData();
         formDataUpload.append('file', file);
 
         try {
+            console.log(`Uploading ${type} image:`, file.name);
+
             const res = await fetch('/api/upload', {
                 method: 'POST',
                 headers: {
@@ -127,39 +140,68 @@ const SubmitForm = () => {
                 body: formDataUpload,
             });
 
+            if (!res.ok) {
+                throw new Error(`Upload failed: ${res.statusText}`);
+            }
+
             const data = await res.json();
+            console.log('Upload response:', data);
 
             if (type === 'product') {
                 handleInputChange('productImage', data.url);
             } else {
-                handleInputChange('featuredImages', [...formData.featuredImages, data.url]);
+                setFormData((prev) => ({
+                    ...prev,
+                    featuredImages: [...prev.featuredImages, data.url],
+                }));
             }
         } catch (error) {
             console.error('Upload error:', error);
+            alert(`Failed to upload ${file.name}. Please try again.`);
+        } finally {
+            setUploading(false);
+            if (type === 'featured') {
+                setUploadingFiles((prev) => prev.filter((name) => name !== file.name));
+            }
         }
     };
-
     const handleFileSelect = (type = 'product') => {
         if (type === 'product' && productImageInputRef.current) {
             productImageInputRef.current.click();
         } else if (type === 'featured' && featuredImageInputRef.current) {
+            // Check if we have space for more images
+            if (formData.featuredImages.length >= 4) {
+                alert('Maximum 4 images allowed');
+                return;
+            }
             featuredImageInputRef.current.click();
         }
     };
 
     const handleFileChange = (event, type = 'product') => {
-        const files = type === 'featured' ? Array.from(event.target.files) : [event.target.files[0]];
+        const files = event.target.files;
+
+        if (!files || files.length === 0) return;
 
         if (type === 'featured') {
+            const filesArray = Array.from(files);
             const remainingSlots = 4 - formData.featuredImages.length;
-            const filesToUpload = files.slice(0, remainingSlots);
+            const filesToUpload = filesArray.slice(0, remainingSlots);
 
-            filesToUpload.forEach((file) => {
+            console.log('Files selected:', filesToUpload.length); // Debug log
+
+            // Upload each file
+            filesToUpload.forEach((file, index) => {
+                console.log(`Uploading file ${index + 1}:`, file.name); // Debug log
                 handleFileUpload(file, type);
             });
         } else {
+            // Single file for product image
             handleFileUpload(files[0], type);
         }
+
+        // Clear the input to allow selecting the same files again
+        event.target.value = '';
     };
 
     const removeFeaturedImage = (indexToRemove) => {
@@ -322,6 +364,7 @@ const SubmitForm = () => {
                 <div className="form-item">
                     <label className="form-label">Featured Images ({formData.featuredImages.length}/4)</label>
 
+                    {/* Display uploaded featured images */}
                     {formData.featuredImages.length > 0 && (
                         <div className="images-grid">
                             {formData.featuredImages.map((image, index) => (
@@ -346,26 +389,37 @@ const SubmitForm = () => {
                         </div>
                     )}
 
+                    {/* Upload area - only show if less than 4 images */}
                     {formData.featuredImages.length < 4 && (
                         <div
-                            className="upload-area"
-                            onClick={() => handleFileSelect('featured')}
+                            className={`upload-area ${uploading ? 'uploading' : ''}`}
+                            onClick={() => !uploading && handleFileSelect('featured')}
                         >
                             <div className="upload-content">
-                                <svg
-                                    className="upload-icon"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M12 4v16m8-8H4"
-                                    />
-                                </svg>
-                                <p>{formData.featuredImages.length === 0 ? 'Click to add featured images' : `Add more images (${4 - formData.featuredImages.length} remaining)`}</p>
+                                {uploading ? (
+                                    <>
+                                        <div className="upload-spinner"></div>
+                                        <p>Uploading images...</p>
+                                        {uploadingFiles.length > 0 && <p style={{ fontSize: '12px', color: '#666' }}>Uploading: {uploadingFiles.join(', ')}</p>}
+                                    </>
+                                ) : (
+                                    <>
+                                        <svg
+                                            className="upload-icon"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth={2}
+                                                d="M12 4v16m8-8H4"
+                                            />
+                                        </svg>
+                                        <p>{formData.featuredImages.length === 0 ? 'Click to add featured images' : `Add more images (${4 - formData.featuredImages.length} remaining)`}</p>
+                                    </>
+                                )}
                             </div>
                         </div>
                     )}

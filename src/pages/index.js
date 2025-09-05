@@ -1,4 +1,5 @@
 import Layout from '@/components/layout';
+import ImageCarousel from '@/components/ImageCarousel'; // Add this import
 import { useAuth } from '@/contexts/authContext';
 import { formatContent } from '@/lib/functions';
 import { BoxMinimalisticOutline, ChatSquareOutline, EyeLinear, HeartOutline, RepeatLinear } from '@/lib/icons';
@@ -10,6 +11,11 @@ export default function Home() {
     const { userObj } = useAuth();
     const [posts, setPosts] = useState([]);
     const [refreshPosts, setRefreshPosts] = useState(0);
+
+    // Add carousel state
+    const [carouselImages, setCarouselImages] = useState([]);
+    const [isCarouselOpen, setIsCarouselOpen] = useState(false);
+    const [carouselInitialIndex, setCarouselInitialIndex] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -31,99 +37,55 @@ export default function Home() {
         if (userObj) fetchData();
     }, [userObj, refreshPosts]);
 
+    // Add carousel functions
+    const openCarousel = (images, initialIndex = 0) => {
+        setCarouselImages(images);
+        setCarouselInitialIndex(initialIndex);
+        setIsCarouselOpen(true);
+    };
+
+    const closeCarousel = () => {
+        setIsCarouselOpen(false);
+    };
+
+    // Update the renderFeaturedImages function
     const renderFeaturedImages = (images) => {
         if (!images || images.length === 0) return null;
 
-        const getImageLayout = (count) => {
-            switch (count) {
-                case 1:
-                    return {
-                        container: { display: 'grid', gap: '4px', borderRadius: '12px', overflow: 'hidden' },
-                        imageStyle: { width: '100%', height: '300px', objectFit: 'cover' },
-                    };
-                case 2:
-                    return {
-                        container: {
-                            display: 'grid',
-                            gridTemplateColumns: '1fr 1fr',
-                            gap: '4px',
-                            borderRadius: '12px',
-                            overflow: 'hidden',
-                        },
-                        imageStyle: { width: '100%', height: '250px', objectFit: 'cover' },
-                    };
-                case 3:
-                    return {
-                        container: {
-                            display: 'grid',
-                            gridTemplateColumns: '2fr 1fr',
-                            gap: '4px',
-                            borderRadius: '12px',
-                            overflow: 'hidden',
-                            height: '300px',
-                        },
-                        imageStyle: { width: '100%', height: '100%', objectFit: 'cover' },
-                        rightColumnStyle: { display: 'grid', gridTemplateRows: '1fr 1fr', gap: '4px' },
-                    };
-                case 4:
-                    return {
-                        container: {
-                            display: 'grid',
-                            gridTemplateColumns: '1fr 1fr',
-                            gridTemplateRows: '1fr 1fr',
-                            gap: '4px',
-                            borderRadius: '12px',
-                            overflow: 'hidden',
-                            height: '400px',
-                        },
-                        imageStyle: { width: '100%', height: '100%', objectFit: 'cover' },
-                    };
-                default:
-                    return {
-                        container: { display: 'grid', gap: '8px' },
-                        imageStyle: { width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px' },
-                    };
-            }
-        };
-
-        const layout = getImageLayout(images.length);
-
-        if (images.length === 3) {
-            return (
-                <div style={layout.container}>
-                    <img
-                        src={images[0]}
-                        alt="Featured 1"
-                        style={layout.imageStyle}
-                    />
-                    <div style={layout.rightColumnStyle}>
-                        <img
-                            src={images[1]}
-                            alt="Featured 2"
-                            style={layout.imageStyle}
-                        />
-                        <img
-                            src={images[2]}
-                            alt="Featured 3"
-                            style={layout.imageStyle}
-                        />
-                    </div>
-                </div>
-            );
-        }
-
         return (
-            <div style={layout.container}>
+            <div className="featured-images-row">
                 {images.map((image, index) => (
                     <img
                         key={index}
                         src={image}
                         alt={`Featured ${index + 1}`}
-                        style={layout.imageStyle}
+                        className="featured-image-small"
+                        onClick={() => openCarousel(images, index)} // Add click handler
                     />
                 ))}
             </div>
         );
+    };
+
+    // Add upvote functionality (optional)
+    const handleUpvote = async (postId) => {
+        if (!userObj) return;
+
+        try {
+            const res = await fetch(`/api/posts/${postId}/like`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    uid: userObj.uid,
+                },
+            });
+
+            if (res.ok) {
+                setRefreshPosts((prev) => prev + 1);
+            }
+        } catch (error) {
+            console.error('Error upvoting:', error);
+        }
     };
 
     return (
@@ -155,26 +117,28 @@ export default function Home() {
                                             b
                                         >
                                             {p.productTitle}
-                                        </h3>{' '}
+                                        </h3>
                                     </div>
-                                    <div className="posted-date">
-                                        <Text
-                                            small
-                                            type="secondary"
+                                    <div className="content-head-right">
+                                        <button
+                                            className={`upvote-btn ${p.likes?.includes(userObj?._id) ? 'liked' : ''}`}
+                                            onClick={() => handleUpvote(p._id)}
                                         >
-                                            {moment(p.createdAt).fromNow()}
-                                        </Text>
+                                            <HeartOutline />
+                                            <span>{p.likes?.length || 0}</span>
+                                        </button>
+                                        <a
+                                            href={p.productUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="product-link-btn"
+                                        >
+                                            Visit
+                                        </a>
                                     </div>
                                 </div>
 
                                 <div className="product-post">
-                                    {/* <Text
-                                        type="secondary"
-                                        small
-                                        style={{ fontSize: 13 }}
-                                    >
-                                        by {p.author?.username}
-                                    </Text> */}
                                     <Text style={{ marginBottom: '12px', lineHeight: '1.5' }}>
                                         <div
                                             style={{ fontSize: 14 }}
@@ -182,7 +146,7 @@ export default function Home() {
                                         />
                                     </Text>
 
-                                    {/* Featured Images with layouts for 1-4 images */}
+                                    {/* Featured Images with click to open carousel */}
                                     {p.featuredImages && p.featuredImages.length > 0 && (
                                         <div
                                             className="featured-images"
@@ -208,7 +172,6 @@ export default function Home() {
                                             <EyeLinear />
                                         </div>
                                     </div>
-
                                     <div className="right">
                                         <div className="bucket">
                                             <BoxMinimalisticOutline />
@@ -220,6 +183,14 @@ export default function Home() {
                     ))}
                 </div>
             </Layout>
+
+            {/* Add the carousel modal */}
+            <ImageCarousel
+                images={carouselImages}
+                isOpen={isCarouselOpen}
+                onClose={closeCarousel}
+                initialIndex={carouselInitialIndex}
+            />
         </>
     );
 }
