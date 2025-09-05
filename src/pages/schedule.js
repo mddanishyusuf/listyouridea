@@ -154,7 +154,7 @@ export default function Schedule() {
                             <p>Future price: $89/week</p>
                         </div>
                         <div className="benefits">
-                            <h4>What's included:</h4>
+                            <h4>What&apos;s included:</h4>
                             <ul>
                                 <li>
                                     <CheckSquareLinear /> Featured on website for full week
