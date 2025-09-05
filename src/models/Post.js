@@ -24,15 +24,15 @@ const postSchema = new mongoose.Schema(
         },
         productImage: {
             type: String,
-            required: true, // Product logo is required
+            required: true,
         },
         featuredImages: {
-            type: [String], // Array of featured images
+            type: [String],
             required: true,
             validate: [
                 {
                     validator: function (val) {
-                        return val.length >= 1 && val.length <= 4; // At least 1, max 4
+                        return val.length >= 1 && val.length <= 4;
                     },
                     message: 'Must have between 1 and 4 featured images',
                 },
@@ -69,6 +69,20 @@ const postSchema = new mongoose.Schema(
                 default: [],
             },
         ],
+        // Updated scheduling fields
+        status: {
+            type: String,
+            enum: ['draft', 'scheduled', 'published'],
+            default: 'draft',
+        },
+        scheduledWeek: {
+            type: Date,
+            default: null,
+        },
+        publishedAt: {
+            type: Date,
+            default: null,
+        },
         completed: {
             type: Boolean,
             default: false,
@@ -76,5 +90,10 @@ const postSchema = new mongoose.Schema(
     },
     { timestamps: true }
 );
+
+// Add indexes for better performance
+postSchema.index({ status: 1 });
+postSchema.index({ scheduledWeek: 1 });
+postSchema.index({ author: 1, status: 1 });
 
 export default mongoose.models.Post || mongoose.model('Post', postSchema);

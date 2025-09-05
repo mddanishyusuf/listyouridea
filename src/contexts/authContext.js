@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     const fetchUserData = useCallback(async (authUser) => {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/profile`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

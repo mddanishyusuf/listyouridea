@@ -8,10 +8,24 @@ export default async function handler(req, res) {
     if (req.method === 'GET') {
         try {
             const { uid } = req.headers;
+            const { status = 'published' } = req.query;
+
             const user = await User.findOne({ uid });
             if (!user) return res.status(401).json({ error: 'Unauthorized' });
 
-            const posts = await Post.find({})
+            let query = {};
+
+            if (status === 'published') {
+                query.status = 'published';
+            } else if (status === 'draft') {
+                query = { author: user._id, status: 'draft' };
+            } else if (status === 'scheduled') {
+                query = { author: user._id, status: 'scheduled' };
+            } else if (status === 'my-posts') {
+                query = { author: user._id };
+            }
+
+            const posts = await Post.find(query)
                 .populate({
                     path: 'author',
                     select: 'username photoURL name',
@@ -54,7 +68,7 @@ export default async function handler(req, res) {
                 return res.status(400).json({ error: 'Maximum 4 featured images allowed' });
             }
 
-            // Validate word count (approximately)
+            // Validate word count
             const wordCount = productDescription.split(' ').filter((word) => word.length > 0).length;
             if (wordCount > 100) {
                 return res.status(400).json({ error: 'Product description must be 100 words or less' });
@@ -68,13 +82,18 @@ export default async function handler(req, res) {
                 productImage,
                 featuredImages,
                 productUrl,
+                status: 'draft', // Save as draft initially
                 completed: true,
             };
 
             const post = new Post(postData);
             await post.save();
 
-            res.status(201).json(post);
+            res.status(201).json({
+                post,
+                redirectTo: '/schedule',
+                message: 'Product saved as draft. Please schedule for publication.',
+            });
         } catch (err) {
             res.status(400).json({ error: err.message });
         }

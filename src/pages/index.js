@@ -20,7 +20,7 @@ export default function Home() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch('/api/posts', {
+                const res = await fetch('/api/posts?status=published', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

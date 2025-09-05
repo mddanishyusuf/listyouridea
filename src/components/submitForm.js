@@ -220,11 +220,17 @@ const SubmitForm = () => {
                 }),
             });
 
+            const data = await res.json();
+
             if (res.ok) {
-                router.push('/');
+                // Redirect to schedule page instead of home
+                router.push('/schedule');
+            } else {
+                alert(data.error || 'Failed to save product');
             }
         } catch (error) {
             console.error('Submit error:', error);
+            alert('Failed to save product. Please try again.');
         } finally {
             setIsSubmitting(false);
         }
