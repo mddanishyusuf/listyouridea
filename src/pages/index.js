@@ -151,13 +151,12 @@ export default function Home() {
                             <div className="content">
                                 <div className="content-head">
                                     <div>
-                                        <Text
-                                            small
+                                        <h3
                                             style={{ fontSize: 15 }}
                                             b
                                         >
                                             {p.productTitle}
-                                        </Text>{' '}
+                                        </h3>{' '}
                                     </div>
                                     <div className="posted-date">
                                         <Text
@@ -170,13 +169,13 @@ export default function Home() {
                                 </div>
 
                                 <div className="product-post">
-                                    <Text
+                                    {/* <Text
                                         type="secondary"
                                         small
                                         style={{ fontSize: 13 }}
                                     >
                                         by {p.author?.username}
-                                    </Text>
+                                    </Text> */}
                                     <Text style={{ marginBottom: '12px', lineHeight: '1.5' }}>
                                         <div
                                             style={{ fontSize: 14 }}
