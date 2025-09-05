@@ -35,12 +35,6 @@ div {
 //     font-optical-sizing: auto !important;
 // }
 
-button {
-    small {
-        font-weight: 500 !important;
-    }
-}
-
 .button {
     padding: 0.75rem 1.25rem;
     border-radius: 16px;
@@ -55,9 +49,11 @@ button {
     font-weight: 600;
     letter-spacing: 0.02em;
     cursor: pointer;
+    font-family: 'Sora', sans-serif !important;
     text-decoration: none;
     position: relative;
     overflow: hidden;
+    font-weight: 300 !important;
     backdrop-filter: blur(20px);
     box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.1), 0 4px 16px -4px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 
@@ -302,6 +298,17 @@ button {
         opacity: 1;
     }
 }
+.user-button {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    img {
+        height: 30px;
+        width: 30px;
+        border-radius: 50%;
+    }
+}
 
 .button:focus-visible {
     outline: none;
@@ -330,6 +337,8 @@ button {
         gap: 15px;
         padding: 10px 0px;
         cursor: pointer;
+        text-decoration: none;
+        color: #000;
         svg {
             font-size: 1.2rem;
         }
@@ -338,75 +347,6 @@ button {
 
 .button-small {
     padding: 0.3rem 0.8rem !important;
-}
-
-.button {
-    padding: 0.6rem 2rem;
-    border-radius: 9999px; // Fully rounded for any size
-    color: white;
-    transition: background 0.2s ease-in-out; // Transition for background color
-    border: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    cursor: pointer;
-    box-sizing: border-box; // Include padding in width calculation
-
-    &--primary {
-        border: 1.5px solid transparent;
-        background: linear-gradient(to bottom, black, darken(black, 10%)); // Updated to primary color
-
-        &:focus {
-            outline: none; // Remove default focus outline
-            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.4); // focus:ring-2 focus:ring-primary color
-        }
-
-        &:hover {
-            background: linear-gradient(to bottom, darken(black, 10%), black); // New gradient on hover
-        }
-    }
-
-    &--secondary {
-        background: white;
-        border: 1.5px solid black; // Updated to primary color
-        color: #000; // Updated to primary color
-
-        &:focus {
-            outline: none; // Remove default focus outline
-            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.4); // focus:ring-2 focus:ring-primary color
-        }
-
-        &:hover {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); // hover:shadow-xl
-        }
-    }
-
-    &--tertiary {
-        background: linear-gradient(to bottom, #eaeaea, #c4c4c4);
-        color: #000;
-
-        &:focus {
-            outline: none; // Remove default focus outline
-            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2); // focus:ring-2 focus:ring-gray color
-        }
-
-        &:hover {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); // hover:shadow-xl
-        }
-    }
-}
-
-.user-button {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    cursor: pointer;
-    img {
-        height: 30px;
-        width: 30px;
-        border-radius: 50%;
-    }
 }
 
 .post-input {
@@ -718,7 +658,6 @@ button {
     position: relative;
     z-index: 10;
     margin: 0 auto;
-    margin-top: 2.5rem;
     display: flex;
     width: 100%;
     flex-direction: column;
@@ -726,18 +665,19 @@ button {
     gap: 2rem;
     overflow: hidden;
     padding: 0 1.5rem;
-    text-align: center;
     max-width: 32rem;
-
+    border: 1px solid #eee;
+    height: 100vh;
+    border-top: 0;
     .submit-content {
         z-index: 10;
         display: flex;
         width: 100%;
         max-width: 32rem;
         flex-direction: column;
-        align-items: center;
-        gap: 3rem;
+        gap: 2rem;
 
+        margin-top: 1rem;
         .submit-title {
             z-index: 10;
             font-size: 1.5rem;
@@ -797,12 +737,13 @@ button {
                         padding: 0.25rem 0.75rem;
                         outline: none;
                         transition: all 0.15s ease;
-                        font-size: 1rem;
+                        font-size: 15px;
                         line-height: 1.25rem;
                         border: 1px solid #d1d5db;
                         background-color: #fff;
                         box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-
+                        box-sizing: border-box;
+                        border-radius: 6px;
                         &:focus {
                             border-color: #000;
                             ring: 3px;

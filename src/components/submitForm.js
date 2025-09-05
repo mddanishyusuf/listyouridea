@@ -2,6 +2,7 @@
 import { useState, useRef } from 'react';
 import { useAuth } from '@/contexts/authContext';
 import { useRouter } from 'next/router';
+import { AltArrowRightLineDuotone } from '@/lib/icons';
 
 const SubmitForm = () => {
     const { userObj } = useAuth();
@@ -510,19 +511,7 @@ const SubmitForm = () => {
                                 onClick={handleNext}
                             >
                                 Next
-                                <svg
-                                    className="btn-icon-right"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M9 5l7 7-7 7"
-                                    />
-                                </svg>
+                                <AltArrowRightLineDuotone />
                             </button>
                         ) : (
                             <button

@@ -1,5 +1,4 @@
 import Layout from '@/components/layout';
-import PostInput from '@/components/postInput';
 import { useAuth } from '@/contexts/authContext';
 import { formatContent } from '@/lib/functions';
 import { BoxMinimalisticOutline, ChatSquareOutline, EyeLinear, HeartOutline, RepeatLinear } from '@/lib/icons';

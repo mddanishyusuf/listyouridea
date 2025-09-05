@@ -54,30 +54,48 @@ const Layout = ({ children }) => {
                     </div>
 
                     <div className="sidebar-nav">
-                        <div className="nav">
+                        <Link
+                            href="/"
+                            className="nav"
+                        >
                             <HomeSmileAngleOutline />
                             <Text my={0}>Home</Text>
-                        </div>
-                        <div className="nav">
+                        </Link>
+                        <Link
+                            href="/"
+                            className="nav"
+                        >
                             <NotificationUnreadLinear />
                             <Text my={0}>Notification</Text>
-                        </div>
-                        <div className="nav">
+                        </Link>
+                        <Link
+                            href="/"
+                            className="nav"
+                        >
                             <FireMinimalisticOutline />
                             <Text my={0}>Trending</Text>
-                        </div>
-                        <div className="nav">
+                        </Link>
+                        <Link
+                            href="/"
+                            className="nav"
+                        >
                             <BoxMinimalisticOutline />
                             <Text my={0}>Companies</Text>
-                        </div>
-                        <div className="nav">
+                        </Link>
+                        <Link
+                            href="/"
+                            className="nav"
+                        >
                             <BookmarkLinear />
                             <Text my={0}>Bookmarks</Text>
-                        </div>
-                        <div className="nav">
+                        </Link>
+                        <Link
+                            href="/"
+                            className="nav"
+                        >
                             <UserLinear />
                             <Text my={0}>Profile</Text>
-                        </div>
+                        </Link>
                     </div>
                     <Link href="/submit">
                         <button
