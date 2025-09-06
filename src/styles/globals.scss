@@ -2660,3 +2660,18 @@ div {
         transform: rotate(360deg);
     }
 }
+
+.form-section {
+    select.form-input {
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23666' d='m2 0-2 2h4zm0 5 2-2h-4z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        background-size: 12px;
+        padding-right: 40px;
+
+        &:focus {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%231d9bf0' d='m2 0-2 2h4zm0 5 2-2h-4z'/%3E%3C/svg%3E");
+        }
+    }
+}

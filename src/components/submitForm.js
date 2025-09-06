@@ -4,6 +4,31 @@ import { useAuth } from '@/contexts/authContext';
 import { useRouter } from 'next/router';
 import { AltArrowRightLineDuotone, CameraOutline, LinkCircle02 } from '@/lib/icons';
 
+// Most popular product categories based on current SaaS market trends
+const PRODUCT_CATEGORIES = [
+    'Productivity & Collaboration',
+    'Marketing & Analytics',
+    'Customer Relationship Management (CRM)',
+    'Project Management',
+    'E-commerce & Sales',
+    'Communication & Messaging',
+    'Design & Creative',
+    'Developer Tools',
+    'Finance & Accounting',
+    'HR & Recruitment',
+    'Education & E-learning',
+    'Healthcare & Medical',
+    'Security & Privacy',
+    'Data & Business Intelligence',
+    'AI & Machine Learning',
+    'Social Media Management',
+    'Content Management',
+    'Automation & Workflow',
+    'File Storage & Management',
+    'Customer Support & Service',
+    'Other',
+];
+
 const SubmitForm = () => {
     const { userObj } = useAuth();
     const router = useRouter();
@@ -12,13 +37,14 @@ const SubmitForm = () => {
     const [uploading, setUploading] = useState(false);
     const [uploadingFiles, setUploadingFiles] = useState([]);
 
-    // Form data
+    // Form data - Updated to include category
     const [formData, setFormData] = useState({
         productTitle: '',
         productDescription: '',
         productUrl: '',
         productImage: '',
         featuredImages: [],
+        category: '', // New field for category
     });
 
     // File input refs
@@ -65,6 +91,10 @@ const SubmitForm = () => {
             newErrors.productUrl = 'Product URL is required';
         } else if (!isValidUrl(formData.productUrl)) {
             newErrors.productUrl = 'Please enter a valid URL';
+        }
+
+        if (!formData.category) {
+            newErrors.category = 'Please select a category';
         }
 
         setErrors(newErrors);
@@ -217,6 +247,7 @@ const SubmitForm = () => {
                     productImage: formData.productImage,
                     featuredImages: formData.featuredImages,
                     productUrl: formData.productUrl,
+                    category: formData.category, // Include category in submission
                 }),
             });
 
@@ -270,6 +301,26 @@ const SubmitForm = () => {
                     </span>
                 </div>
                 {errors.productDescription && <span className="error-text">{errors.productDescription}</span>}
+            </div>
+
+            <div className="form-section">
+                <label>Category</label>
+                <select
+                    className={`form-input ${errors.category ? 'error' : ''}`}
+                    value={formData.category}
+                    onChange={(e) => handleInputChange('category', e.target.value)}
+                >
+                    <option value="">Select a category</option>
+                    {PRODUCT_CATEGORIES.map((category) => (
+                        <option
+                            key={category}
+                            value={category}
+                        >
+                            {category}
+                        </option>
+                    ))}
+                </select>
+                {errors.category && <span className="error-text">{errors.category}</span>}
             </div>
 
             <div className="form-section">
@@ -403,6 +454,7 @@ const SubmitForm = () => {
                         <div className="content-head">
                             <div>
                                 <h3 style={{ fontSize: 15, margin: 0 }}>{formData.productTitle}</h3>
+                                <div style={{ fontSize: 12, color: '#666', marginTop: 2 }}>{formData.category}</div>
                             </div>
                             <div className="content-head-right">
                                 <a

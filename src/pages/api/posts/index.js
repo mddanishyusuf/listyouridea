@@ -1,3 +1,4 @@
+// src/pages/api/posts/index.js
 import dbConnect from '@/lib/mongodb';
 import Post from '@/models/Post';
 import User from '@/models/User';
@@ -8,7 +9,7 @@ export default async function handler(req, res) {
     if (req.method === 'GET') {
         try {
             const { uid } = req.headers;
-            const { status = 'published' } = req.query;
+            const { status = 'published', category } = req.query;
 
             const user = await User.findOne({ uid });
             if (!user) return res.status(401).json({ error: 'Unauthorized' });
@@ -23,6 +24,11 @@ export default async function handler(req, res) {
                 query = { author: user._id, status: 'scheduled' };
             } else if (status === 'my-posts') {
                 query = { author: user._id };
+            }
+
+            // Add category filter if provided
+            if (category && category !== 'all') {
+                query.category = category;
             }
 
             const posts = await Post.find(query)
@@ -42,7 +48,7 @@ export default async function handler(req, res) {
     if (req.method === 'POST') {
         try {
             const { uid } = req.headers;
-            const { productTitle, productDescription, productImage, featuredImages, productUrl } = req.body;
+            const { productTitle, productDescription, productImage, featuredImages, productUrl, category } = req.body;
 
             const user = await User.findOne({ uid });
             if (!user) return res.status(401).json({ error: 'Unauthorized' });
@@ -68,6 +74,10 @@ export default async function handler(req, res) {
                 return res.status(400).json({ error: 'Maximum 4 featured images allowed' });
             }
 
+            if (!category) {
+                return res.status(400).json({ error: 'Category is required' });
+            }
+
             // Validate word count
             const wordCount = productDescription.split(' ').filter((word) => word.length > 0).length;
             if (wordCount > 100) {
@@ -82,6 +92,7 @@ export default async function handler(req, res) {
                 productImage,
                 featuredImages,
                 productUrl,
+                category, // Add category to the post data
                 status: 'draft', // Save as draft initially
                 completed: true,
             };

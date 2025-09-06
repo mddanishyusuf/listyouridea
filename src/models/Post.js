@@ -1,3 +1,4 @@
+// src/models/Post.js
 import mongoose from 'mongoose';
 
 const postSchema = new mongoose.Schema(
@@ -36,6 +37,33 @@ const postSchema = new mongoose.Schema(
                     },
                     message: 'Must have between 1 and 4 featured images',
                 },
+            ],
+        },
+        category: {
+            type: String,
+            required: true,
+            enum: [
+                'Productivity & Collaboration',
+                'Marketing & Analytics',
+                'Customer Relationship Management (CRM)',
+                'Project Management',
+                'E-commerce & Sales',
+                'Communication & Messaging',
+                'Design & Creative',
+                'Developer Tools',
+                'Finance & Accounting',
+                'HR & Recruitment',
+                'Education & E-learning',
+                'Healthcare & Medical',
+                'Security & Privacy',
+                'Data & Business Intelligence',
+                'AI & Machine Learning',
+                'Social Media Management',
+                'Content Management',
+                'Automation & Workflow',
+                'File Storage & Management',
+                'Customer Support & Service',
+                'Other',
             ],
         },
         categories: {
@@ -95,5 +123,6 @@ const postSchema = new mongoose.Schema(
 postSchema.index({ status: 1 });
 postSchema.index({ scheduledWeek: 1 });
 postSchema.index({ author: 1, status: 1 });
+postSchema.index({ category: 1 }); // Add index for category filtering
 
 export default mongoose.models.Post || mongoose.model('Post', postSchema);

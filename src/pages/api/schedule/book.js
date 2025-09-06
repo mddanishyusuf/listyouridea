@@ -96,6 +96,10 @@ export default async function handler(req, res) {
                 },
             ],
             mode: 'payment',
+
+            // Add these lines to enable coupon codes
+            allow_promotion_codes: true,
+
             success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/schedule/success?session_id={CHECKOUT_SESSION_ID}&schedule_id=${schedule._id}&slot_number=${slotNumber}&post_id=${post._id}`,
             cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/schedule?cancelled=true`,
             customer_email: user.email,
