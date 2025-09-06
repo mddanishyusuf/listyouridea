@@ -2675,3 +2675,155 @@ div {
         }
     }
 }
+
+// Add to src/styles/globals.scss
+
+.homepage-header {
+    padding: 20px 0;
+    border-bottom: 1px solid #eff3f4;
+    margin-bottom: 0;
+
+    .hero-section {
+        text-align: center;
+        margin-bottom: 20px;
+
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #0f1419;
+            margin: 0 0 8px 0;
+        }
+
+        p {
+            color: #536471;
+            font-size: 16px;
+            margin: 0;
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.4;
+        }
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        background: #f7f9fa;
+        border-radius: 8px;
+        border: 1px solid #eff3f4;
+
+        h2 {
+            color: #536471;
+            font-size: 18px;
+            font-weight: 500;
+            margin: 0 0 8px 0;
+        }
+
+        p {
+            color: #657786;
+            margin: 0;
+            font-size: 14px;
+        }
+    }
+}
+
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+
+    .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid #eff3f4;
+        border-top: 3px solid #1d9bf0;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 16px;
+    }
+
+    p {
+        color: #536471;
+        font-size: 16px;
+        margin: 0;
+    }
+}
+
+.product-category {
+    display: inline-block;
+    background: rgba(29, 155, 240, 0.1);
+    color: #1d9bf0;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-top: 4px;
+    line-height: 1.2;
+}
+
+.posted-date {
+    margin-top: 4px;
+
+    small {
+        color: #657786;
+        font-size: 12px;
+    }
+}
+
+// Mobile responsiveness
+@media (max-width: 768px) {
+    .homepage-header {
+        padding: 16px 0;
+
+        .hero-section {
+            margin-bottom: 16px;
+
+            h1 {
+                font-size: 20px;
+            }
+
+            p {
+                font-size: 14px;
+            }
+        }
+
+        .empty-state {
+            padding: 30px 16px;
+
+            h2 {
+                font-size: 16px;
+            }
+        }
+    }
+
+    .loading-container {
+        padding: 40px 16px;
+    }
+}
+
+// Make upvote button work better for non-logged users
+.upvote-btn {
+    &:hover {
+        background: rgba(255, 240, 240, 0.9);
+        border-color: #ff6b6b;
+        color: #ff6b6b;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(255, 107, 107, 0.2);
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none !important;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: #e1e8ed;
+            color: #666;
+            transform: none !important;
+            box-shadow: none;
+        }
+    }
+}
