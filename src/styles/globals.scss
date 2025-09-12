@@ -407,7 +407,7 @@ div {
 .post-card {
     flex: 0 0 auto;
     width: 100%;
-    border-radius: 10px;
+    border-radius: 12px;
     max-width: 350px;
     min-width: 280px; // Prevents cards from getting too small
     background: #333333;
@@ -477,11 +477,52 @@ div {
     }
 }
 
+// Single Image Preview Styles
 .image-preview {
-    img {
-        border: 1px solid #cfd9de;
-        border-radius: 8px;
-        max-width: 500px;
+    margin-top: 12px;
+
+    .image {
+        position: relative;
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
+        overflow: hidden;
+        background-color: #f7f9fa;
+
+        img {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            aspect-ratio: 16/10;
+            object-fit: cover;
+            display: block;
+            border: none;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+
+            &:hover {
+                transform: scale(1.02);
+            }
+        }
+    }
+
+    // Responsive adjustments
+    @media (max-width: 768px) {
+        .image img {
+            max-height: 300px;
+            aspect-ratio: 16/9;
+        }
+    }
+
+    @media (max-width: 480px) {
+        margin-top: 8px;
+
+        .image {
+            border-radius: 8px;
+
+            img {
+                max-height: 250px;
+            }
+        }
     }
 }
 
@@ -530,7 +571,10 @@ div {
 
                 svg {
                     display: block;
-                    color: #000;
+                    color: #fff !important;
+                    path {
+                        fill: #fff;
+                    }
                 }
 
                 @media (hover: none) {

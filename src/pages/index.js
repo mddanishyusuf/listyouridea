@@ -154,14 +154,17 @@ export default function Home() {
                                 <div className="product-post">
                                     {/* Featured Images with click to open carousel */}
                                     {p.featuredImages && p.featuredImages.length > 0 && (
-                                        <div
-                                            className="featured-image"
-                                            style={{ marginTop: '12px' }}
-                                        >
-                                            <img
-                                                src={p.featuredImages[0]}
-                                                height={160}
-                                            />
+                                        <div className="image-preview">
+                                            <div className="image">
+                                                <img
+                                                    src={p.featuredImages[0]}
+                                                    alt="Post image"
+                                                    loading="lazy"
+                                                    onError={(e) => {
+                                                        e.target.parentNode.style.display = 'none';
+                                                    }}
+                                                />
+                                            </div>
                                         </div>
                                     )}
                                 </div>
