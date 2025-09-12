@@ -4,7 +4,6 @@ import { BookmarkLinear, BoxMinimalisticOutline, DoubleArrowRight, FireMinimalis
 import firebase from '@/lib/firebase';
 import { useAuth } from '@/contexts/authContext';
 import Link from 'next/link';
-import Sidebar from './Sidebar';
 
 const Layout = ({ children }) => {
     const { userObj } = useAuth();
@@ -44,7 +43,6 @@ const Layout = ({ children }) => {
         <>
             <Seo />
             <div className="layout-container">
-                <Sidebar />
                 <div className="feed-container">
                     <div className="feed-content">{children}</div>
                 </div>
