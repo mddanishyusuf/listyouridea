@@ -1,6 +1,6 @@
 import { Text } from '@geist-ui/core';
 import Seo from './seo';
-import { BookmarkLinear, BoxMinimalisticOutline, DoubleArrowRight, FireMinimalisticOutline, HomeSmileAngleOutline, Idea, NotificationUnreadLinear, UserLinear, UsersGroupRoundedOutline } from '@/lib/icons';
+import { AppsListDetail24Filled, BookmarkLinear, BoxMinimalisticOutline, DoubleArrowRight, FireMinimalisticOutline, HomeSmileAngleOutline, Idea, NotificationUnreadLinear, UserLinear, UsersGroupRoundedOutline } from '@/lib/icons';
 import firebase from '@/lib/firebase';
 import { useAuth } from '@/contexts/authContext';
 import Link from 'next/link';
@@ -42,9 +42,35 @@ const Layout = ({ children }) => {
     return (
         <>
             <Seo />
+
             <div className="layout-container">
                 <div className="feed-container">
-                    <div className="feed-content">{children}</div>
+                    <div className="feed-content">
+                        <div className="container">
+                            <header className="header">
+                                <div className="header-left">
+                                    {/* Heroicons Logo */}
+                                    <Link
+                                        href="/"
+                                        className="logo"
+                                    >
+                                        <AppsListDetail24Filled />
+                                        <h4>List idea</h4>
+                                    </Link>
+                                </div>
+
+                                {/* Share Button */}
+                                <Link
+                                    href="/submit"
+                                    className="share-btn"
+                                >
+                                    {/* <ShareIcon className="share-icon" /> */}
+                                    <span>Submit your idea</span>
+                                </Link>
+                            </header>
+                        </div>
+                        {children}
+                    </div>
                 </div>
             </div>
         </>

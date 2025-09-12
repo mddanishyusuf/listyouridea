@@ -145,130 +145,121 @@ export default function Schedule() {
 
     return (
         <Layout>
-            <div className="schedule-container">
-                <div className="schedule-header">
-                    <h1>Schedule Your Product</h1>
-                    <div className="schedule-info">
-                        <div className="pricing-info">
-                            <h3>Beta Pricing: $29/week</h3>
-                            <p>Future price: $89/week</p>
-                        </div>
-                        <div className="benefits">
-                            <h4>What&apos;s included:</h4>
-                            <ul>
-                                <li>
-                                    <CheckSquareLinear /> Featured on website for full week
-                                </li>
-                                <li>
-                                    <CheckSquareLinear /> Backlink to your product
-                                </li>
-                                <li>
-                                    <CheckSquareLinear /> Featured in weekly newsletter (45k+ subscribers)
-                                </li>
-                                <li>
-                                    <CheckSquareLinear /> Social media promotion
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                {draftPosts.length === 0 ? (
-                    <div className="no-drafts">
-                        <h2>No draft products found</h2>
-                        <p>Please create a product first to schedule it.</p>
-                        <button
-                            className="button button--primary"
-                            onClick={() => router.push('/submit')}
-                        >
-                            Create Product
-                        </button>
-                    </div>
-                ) : (
-                    <>
-                        <div className="product-selector">
-                            <h3>Select Product to Schedule:</h3>
-                            <div className="product-list">
-                                {draftPosts.map((post) => (
-                                    <div
-                                        key={post._id}
-                                        className={`product-card ${selectedPost === post._id ? 'selected' : ''}`}
-                                        onClick={() => setSelectedPost(post._id)}
-                                    >
-                                        <img
-                                            src={post.productImage}
-                                            alt={post.productTitle}
-                                        />
-                                        <div className="product-info">
-                                            <h4>{post.productTitle}</h4>
-                                            <p>{post.productDescription.substring(0, 100)}...</p>
-                                        </div>
-                                        {selectedPost === post._id && <CheckCircleBold />}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className="weeks-container">
-                            <h3>Select Week (Next 4 Weeks)</h3>
-                            <div className="weeks-blocks">
-                                {weeks.slice(0, 4).map((week) => (
-                                    <div
-                                        key={week.weekStart}
-                                        className={`week-block ${selectedWeek === week.weekStart ? 'selected' : ''} ${week.availableSlots === 0 ? 'unavailable' : ''}`}
-                                        onClick={() => week.availableSlots > 0 && setSelectedWeek(week.weekStart)}
-                                    >
-                                        <div className="week-date">{formatWeekShort(week.weekStart, week.weekEnd)}</div>
-                                        <div className="week-slots">
-                                            {week.availableSlots > 0 ? (
-                                                <span className="available">
-                                                    {week.availableSlots} slot{week.availableSlots !== 1 ? 's' : ''}
-                                                </span>
-                                            ) : (
-                                                <span className="full">Full</span>
-                                            )}
-                                        </div>
-                                        {selectedWeek === week.weekStart && <CheckCircleBold />}
-                                    </div>
-                                ))}
+            <div className="container">
+                <main className="main-content">
+                    <div className="hero-section">
+                        <div className="hero-text">
+                            <div className="hero-stats">
+                                <p>50,000+ readers</p>
+                                <span className="divider" />
+                                <p>Backlink</p>
+                                <span className="divider" />
+                                <p>Weekly mentioned</p>
                             </div>
 
-                            {weeks.slice(0, 4).every((week) => week.availableSlots === 0) && (
-                                <div className="no-availability">
-                                    <p>All slots are full for the next 4 weeks.</p>
-                                    <p>Please check back later or contact support.</p>
+                            <h1 className="hero-title">Now schedule your product</h1>
+                        </div>
+                    </div>
+                </main>
+
+                <div className="schedule-container">
+                    {draftPosts.length === 0 ? (
+                        <div className="no-drafts">
+                            <h2>No draft products found</h2>
+                            <p>Please create a product first to schedule it.</p>
+                            <button
+                                className="button button--primary"
+                                onClick={() => router.push('/submit')}
+                            >
+                                Create Product
+                            </button>
+                        </div>
+                    ) : (
+                        <>
+                            <div className="product-selector">
+                                <h3>Select Product:</h3>
+                                <div className="product-list">
+                                    {draftPosts.map((post) => (
+                                        <div
+                                            key={post._id}
+                                            className={`product-card ${selectedPost === post._id ? 'selected' : ''}`}
+                                            onClick={() => setSelectedPost(post._id)}
+                                        >
+                                            <img
+                                                src={post.productImage}
+                                                alt={post.productTitle}
+                                            />
+                                            <div className="product-info">
+                                                <h4>{post.productTitle}</h4>
+                                                <p>{post.productDescription.substring(0, 100)}...</p>
+                                            </div>
+                                            {selectedPost === post._id && <CheckCircleBold />}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="weeks-container">
+                                <h3>Select Week (Next 4 Weeks)</h3>
+                                <div className="weeks-blocks">
+                                    {weeks.slice(0, 4).map((week) => (
+                                        <div
+                                            key={week.weekStart}
+                                            className={`week-block ${selectedWeek === week.weekStart ? 'selected' : ''} ${week.availableSlots === 0 ? 'unavailable' : ''}`}
+                                            onClick={() => week.availableSlots > 0 && setSelectedWeek(week.weekStart)}
+                                        >
+                                            <div className="week-date">{formatWeekShort(week.weekStart, week.weekEnd)}</div>
+                                            <div className="week-slots">
+                                                {week.availableSlots > 0 ? (
+                                                    <span className="available">
+                                                        {week.availableSlots} slot{week.availableSlots !== 1 ? 's' : ''}
+                                                    </span>
+                                                ) : (
+                                                    <span className="full">Full</span>
+                                                )}
+                                            </div>
+                                            {selectedWeek === week.weekStart && <CheckCircleBold />}
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {weeks.slice(0, 4).every((week) => week.availableSlots === 0) && (
+                                    <div className="no-availability">
+                                        <p>All slots are full for the next 4 weeks.</p>
+                                        <p>Please check back later or contact support.</p>
+                                    </div>
+                                )}
+                            </div>
+
+                            {selectedPost && selectedWeek && (
+                                <div className="payment-section">
+                                    <div className="selection-summary">
+                                        <h3>Selected:</h3>
+                                        <div className="summary-details">
+                                            <div className="selected-product">
+                                                <strong>Product:</strong> {draftPosts.find((p) => p._id === selectedPost)?.productTitle}
+                                            </div>
+                                            <div className="selected-week">
+                                                <strong>Week:</strong> {selectedWeekData?.weekDisplay}
+                                            </div>
+                                            <div className="price">
+                                                <strong>Price:</strong> $29 (Beta pricing)
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button
+                                        className="button button--primary payment-button"
+                                        onClick={handlePayAndSchedule}
+                                        disabled={booking}
+                                    >
+                                        {booking ? 'Processing...' : 'Pay $29 & Schedule'}
+                                    </button>
                                 </div>
                             )}
-                        </div>
-
-                        {selectedPost && selectedWeek && (
-                            <div className="payment-section">
-                                <div className="selection-summary">
-                                    <h3>Selected:</h3>
-                                    <div className="summary-details">
-                                        <div className="selected-product">
-                                            <strong>Product:</strong> {draftPosts.find((p) => p._id === selectedPost)?.productTitle}
-                                        </div>
-                                        <div className="selected-week">
-                                            <strong>Week:</strong> {selectedWeekData?.weekDisplay}
-                                        </div>
-                                        <div className="price">
-                                            <strong>Price:</strong> $29 (Beta pricing)
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <button
-                                    className="button button--primary payment-button"
-                                    onClick={handlePayAndSchedule}
-                                    disabled={booking}
-                                >
-                                    {booking ? 'Processing...' : 'Pay $29 & Schedule'}
-                                </button>
-                            </div>
-                        )}
-                    </>
-                )}
+                        </>
+                    )}
+                </div>
             </div>
         </Layout>
     );

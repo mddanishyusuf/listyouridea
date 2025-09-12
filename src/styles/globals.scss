@@ -11,6 +11,7 @@ small,
 input,
 b,
 textarea,
+select,
 a {
     // font-family: var(--font-geist-sans) !important;
     font-family: 'Sora', sans-serif !important;
@@ -38,7 +39,7 @@ div {
 .button {
     padding: 0.75rem 1.25rem;
     border-radius: 16px;
-    color: white;
+    color: #333333; /* Changed from white */
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     border: 0;
     display: inline-flex;
@@ -85,58 +86,20 @@ div {
         transform: translateX(2px) scale(1.05);
     }
 
-    &::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle at center, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 30%, transparent 70%);
-        transform: scale(0);
-        transition: transform 0.6s ease;
-        border-radius: 50%;
-    }
-
-    &:hover::before {
-        transform: scale(1);
-    }
-
     &--primary {
-        border: 1px solid rgba(255, 255, 255, 0.12);
+        border: 1px solid #ededed;
         border-radius: 18px;
-        color: #ffffff;
-        background: linear-gradient(145deg, #1a1a1a 0%, #2c2c2c 25%, #1f1f1f 50%, #2a2a2a 75%, #0f0f0f 100%);
+        color: #ededed; /* Changed from #ffffff */
         border-color: rgba(255, 255, 255, 0.2);
         transform: translateY(-2px);
-
+        background-color: #333333;
         @media (max-width: 480px) {
             border-radius: 14px;
-        }
-
-        &::after {
-            content: '';
-            position: absolute;
-            inset: 1px;
-            border-radius: 17px;
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%, rgba(255, 255, 255, 0.05) 100%);
-            pointer-events: none;
-
-            @media (max-width: 480px) {
-                border-radius: 13px;
-            }
         }
 
         &:focus {
             outline: none;
             box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.15), 0 8px 32px -4px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-
-        &:hover {
-            background: linear-gradient(145deg, #1a1a1a 0%, #2c2c2c 25%, #1f1f1f 50%, #2a2a2a 75%, #0f0f0f 100%);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.25), 0 4px 16px -2px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
 
         &:active {
@@ -146,7 +109,7 @@ div {
 
     &--secondary {
         background: rgba(255, 255, 255, 0.08);
-        color: #1a1a1a;
+        color: #333333; /* Changed from #1a1a1a */
         border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 16px;
         backdrop-filter: blur(40px);
@@ -176,7 +139,7 @@ div {
         &:hover {
             background: rgba(255, 255, 255, 0.18);
             border-color: rgba(255, 255, 255, 0.3);
-            color: #000000;
+            color: #333333; /* Changed from #000000 */
             transform: translateY(-1px);
             box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
@@ -188,37 +151,12 @@ div {
 
     &--tertiary {
         background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 50%, #232323 100%);
-        color: #ffffff;
+        color: #333333; /* Changed from #ffffff */
         border: 1px solid rgba(255, 255, 255, 0.06);
         border-radius: 14px;
 
         @media (max-width: 480px) {
             border-radius: 10px;
-        }
-
-        &::after {
-            content: '';
-            position: absolute;
-            inset: 1px;
-            border-radius: 13px;
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.06) 0%, transparent 60%, rgba(255, 255, 255, 0.02) 100%);
-            pointer-events: none;
-
-            @media (max-width: 480px) {
-                border-radius: 9px;
-            }
-        }
-
-        &:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08), 0 6px 24px -2px rgba(0, 0, 0, 0.2);
-        }
-
-        &:hover {
-            background: linear-gradient(145deg, #2d2d2d 0%, #3a3a3a 50%, #333333 100%);
-            border-color: rgba(255, 255, 255, 0.12);
-            transform: translateY(-1px);
-            box-shadow: 0 12px 48px -8px rgba(0, 0, 0, 0.3), 0 6px 24px -4px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         &:active {
@@ -339,9 +277,12 @@ div {
         display: flex;
         align-items: center;
         gap: 5px;
-
-        img {
-            font-size: 26px;
+        color: #ededed !important;
+        h4 {
+            font-weight: 500 !important;
+        }
+        svg {
+            font-size: 24px;
         }
     }
 }
@@ -382,10 +323,9 @@ div {
     padding: 0.25rem 0.375rem;
     border-radius: 0.5rem;
     font-size: 0.8125rem;
-    font-weight: 600;
+    color: #fff;
     line-height: 1.5rem;
-    color: #0f172a;
-    text-decoration: none;
+    text-decoration: underline;
     transition: all 0.15s ease;
 
     &:hover {
@@ -573,7 +513,7 @@ div {
         .logo {
             display: flex;
             align-items: center;
-
+            text-decoration: none;
             h2 {
                 font-weight: 300 !important;
                 font-size: 15px;
@@ -771,7 +711,7 @@ div {
 }
 
 .submit-form-container {
-    padding: 1rem;
+    padding: 1rem 0;
     max-width: 700px;
 }
 
@@ -802,7 +742,7 @@ div {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    padding: 0 1.5rem 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .form-field {
@@ -813,7 +753,7 @@ div {
 }
 
 .field-label {
-    color: #fff;
+    color: #a2a2a2;
     display: block;
     font-size: 0.875rem;
     margin-bottom: 0.25rem;
@@ -827,7 +767,7 @@ div {
     font-size: 0.875rem;
     font-weight: 300;
     outline: none;
-    padding: 0.5rem 0.75rem;
+    padding: 0.7rem 0.75rem;
     transition: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
     width: 100%;
     box-sizing: border-box;
@@ -1021,8 +961,7 @@ div {
 
 .schedule-container {
     max-width: 900px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
+    padding: 2rem 0rem;
     color: #fff;
 }
 
@@ -1125,7 +1064,7 @@ div {
         background: #222;
         border: 1px solid #333;
         border-radius: 0.75rem;
-        padding: 1rem;
+        padding: 0.85rem;
         cursor: pointer;
         transition: all 0.2s ease;
 
@@ -1140,8 +1079,8 @@ div {
         }
 
         img {
-            width: 60px;
-            height: 60px;
+            width: 40px;
+            height: 40px;
             object-fit: cover;
             border-radius: 0.5rem;
             flex-shrink: 0;
@@ -1153,7 +1092,7 @@ div {
 
             h4 {
                 color: #fff;
-                font-size: 1rem;
+                font-size: 0.9rem;
                 font-weight: 500;
                 margin: 0 0 0.25rem 0;
             }
