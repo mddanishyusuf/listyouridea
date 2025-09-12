@@ -373,16 +373,11 @@ div {
     order: -1;
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 1rem;
     font-size: 0.8125rem;
     line-height: 1.5rem;
     color: #64748b;
     margin-bottom: 1.5rem;
-
-    @media (min-width: 1024px) {
-        justify-content: flex-start;
-    }
 
     p {
         margin: 0;
@@ -413,12 +408,7 @@ div {
 .action-buttons {
     margin-top: 2.5rem;
     display: flex;
-    justify-content: center;
     gap: 2rem;
-
-    @media (min-width: 1024px) {
-        justify-content: flex-start;
-    }
 }
 
 .action-btn {
