@@ -119,20 +119,6 @@ export default function Home() {
     return (
         <>
             <Layout>
-                <div className="homepage-header">
-                    <div className="hero-section">
-                        <h1>Discover Amazing Products</h1>
-                        <p>Find the best SaaS products, tools, and services featured by our community</p>
-                    </div>
-
-                    {posts.length === 0 && (
-                        <div className="empty-state">
-                            <h2>No products featured yet</h2>
-                            <p>Be the first to submit your product!</p>
-                        </div>
-                    )}
-                </div>
-
                 <div className="posts">
                     {posts.map((p, k) => (
                         <div

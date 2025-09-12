@@ -12,7 +12,7 @@ export default async function handler(req, res) {
     try {
         const { category, limit = 50, page = 1 } = req.query;
 
-        let query = { status: 'published' };
+        let query = {};
 
         // Add category filter if provided
         if (category && category !== 'all') {
