@@ -125,88 +125,45 @@ export default function Home() {
                             className="post-card"
                             key={k}
                         >
-                            <div className="author-image">
-                                <img
-                                    src={p.productImage}
-                                    alt="Product Logo"
-                                    style={{
-                                        borderRadius: '8px',
-                                        width: '40px',
-                                        height: '40px',
-                                        objectFit: 'cover',
-                                    }}
-                                />
-                            </div>
                             <div className="content">
                                 <div className="content-head">
+                                    <div className="product-logo">
+                                        <img
+                                            src={p.productImage}
+                                            alt="Product Logo"
+                                            style={{
+                                                borderRadius: '10px',
+                                                width: '40px',
+                                                height: '40px',
+                                                objectFit: 'cover',
+                                            }}
+                                        />
+                                    </div>
                                     <div>
-                                        <h3 style={{ fontSize: 15, margin: 0 }}>{p.productTitle}</h3>
-                                        {p.category && <div className="product-category">{p.category}</div>}
+                                        <div className="product-description">
+                                            <span style={{ color: '#cccccc' }}>{p.productTitle}</span> — {p.productDescription}
+                                        </div>
                                         {p.publishedAt && (
                                             <div className="posted-date">
                                                 <small>{formatTimeAgo(p.publishedAt)}</small>
                                             </div>
                                         )}
                                     </div>
-                                    <div className="content-head-right">
-                                        <button
-                                            className={`upvote-btn ${userObj && p.likes?.includes(userObj._id) ? 'liked' : ''}`}
-                                            onClick={() => handleUpvote(p._id)}
-                                            title={userObj ? 'Like this product' : 'Login to like'}
-                                        >
-                                            <HeartOutline />
-                                            <span>{p.likes?.length || 0}</span>
-                                        </button>
-                                        <a
-                                            href={p.productUrl}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="product-link-btn"
-                                        >
-                                            Visit
-                                        </a>
-                                    </div>
                                 </div>
 
                                 <div className="product-post">
-                                    <Text style={{ marginBottom: '12px', lineHeight: '1.5' }}>
-                                        <div
-                                            style={{ fontSize: 14 }}
-                                            dangerouslySetInnerHTML={{ __html: formatContent(p.productDescription) }}
-                                        />
-                                    </Text>
-
                                     {/* Featured Images with click to open carousel */}
                                     {p.featuredImages && p.featuredImages.length > 0 && (
                                         <div
-                                            className="featured-images"
+                                            className="featured-image"
                                             style={{ marginTop: '12px' }}
                                         >
-                                            {renderFeaturedImages(p.featuredImages)}
+                                            <img
+                                                src={p.featuredImages[0]}
+                                                height={160}
+                                            />
                                         </div>
                                     )}
-                                </div>
-
-                                <div className="post-enggage">
-                                    <div className="left">
-                                        <div className="comment">
-                                            <ChatSquareOutline />
-                                        </div>
-                                        <div className="likes">
-                                            <HeartOutline />
-                                        </div>
-                                        <div className="re-shared">
-                                            <RepeatLinear />
-                                        </div>
-                                        <div className="views">
-                                            <EyeLinear />
-                                        </div>
-                                    </div>
-                                    <div className="right">
-                                        <div className="bucket">
-                                            <BoxMinimalisticOutline />
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
