@@ -177,7 +177,6 @@ export default function Home() {
                                         )}
                                     </div>
                                 </div>
-
                                 <div className="product-post">
                                     {/* Featured Images with click to open carousel */}
                                     {p.featuredImages && p.featuredImages.length > 0 && (

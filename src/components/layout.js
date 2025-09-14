@@ -58,15 +58,24 @@ const Layout = ({ children }) => {
                                         <h4>List idea</h4>
                                     </Link>
                                 </div>
-
+                                {userObj ? (
+                                    <Link
+                                        href="/submit"
+                                        className="share-btn"
+                                    >
+                                        {/* <ShareIcon className="share-icon" /> */}
+                                        <span>Submit your idea</span>
+                                    </Link>
+                                ) : (
+                                    <div
+                                        onClick={() => loginWithTwitter()}
+                                        className="share-btn"
+                                    >
+                                        {/* <ShareIcon className="share-icon" /> */}
+                                        <span>Submit your idea</span>
+                                    </div>
+                                )}
                                 {/* Share Button */}
-                                <Link
-                                    href="/submit"
-                                    className="share-btn"
-                                >
-                                    {/* <ShareIcon className="share-icon" /> */}
-                                    <span>Submit your idea</span>
-                                </Link>
                             </header>
                         </div>
                         {children}
